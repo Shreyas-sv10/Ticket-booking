@@ -1,40 +1,49 @@
 <?php
+// Connect to MySQL (without DB first)
+$conn = new mysqli("localhost", "root", "");
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Create database if not exists
+$conn->query("CREATE DATABASE IF NOT EXISTS ticket_db");
+
+// Now select the DB
+$conn->select_db("ticket_db");
+
+// Create users table if not exists
+$conn->query("CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(255)
+)");
+
 // If form submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // Database connection
-    $conn = new mysqli("localhost", "root", "", "ticket_db");
-
-    // Check DB connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Get user input safely
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
-    // Check if user already exists
     $check = mysqli_query($conn, "SELECT * FROM users WHERE email = '$email'");
     if (mysqli_num_rows($check) > 0) {
         echo "Email already registered!";
         exit();
     }
 
-    // Hash password
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // Insert into DB
     $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$hashedPassword')";
     if ($conn->query($sql) === TRUE) {
         echo "Registered successfully! <a href='login.html'>Click here to login</a>";
     } else {
         echo "Error: " . $conn->error;
     }
-
-    $conn->close();
 }
+
+$conn->close();
 ?>
 
 <!-- Registration Form UI -->
