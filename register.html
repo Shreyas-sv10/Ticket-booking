@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register | EventEase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #0f172a, #1e293b);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: #1e293b;
+      padding: 40px 50px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .container h2 {
+      text-align: center;
+      color: #38bdf8;
+      margin-bottom: 25px;
+      font-size: 30px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    label {
+      color: #e2e8f0;
+      font-size: 16px;
+    }
+
+    input {
+      padding: 12px 15px;
+      border: none;
+      border-radius: 8px;
+      background: #334155;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      background: #475569;
+    }
+
+    .btn {
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: bold;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #0ea5e9;
+      color: white;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+
+    .login-link a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      color: #f87171;
+      font-size: 14px;
+    }
+
+    .success {
+      color: #34d399;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Create an Account</h2>
+    <form id="registerForm" method="POST" action="php/register.php" onsubmit="return validateForm()">
+      <div>
+        <label for="name">Full Name</label>
+        <input type="text" name="name" id="name" required />
+      </div>
+
+      <div>
+        <label for="email">Email Address</label>
+        <input type="email" name="email" id="email" required />
+      </div>
+
+      <div>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required minlength="6"/>
+      </div>
+
+      <div>
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" required />
+      </div>
+
+      <div id="message" class="error"></div>
+
+      <button type="submit" class="btn">Register</button>
+    </form>
+
+    <div class="login-link">
+      Already have an account? <a href="login.html">Login here</a>
+    </div>
+  </div>
+
+  <script>
+    function validateForm() {
+      const pass = document.getElementById("password").value;
+      const confirm = document.getElementById("confirmPassword").value;
+      const message = document.getElementById("message");
+
+      if (pass !== confirm) {
+        message.textContent = "Passwords do not match!";
+        return false;
+      }
+
+      message.textContent = "";
+      return true;
+    }
+  </script>
+</body>
+</html>
